@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 function isExternal(module) {
     var userRequest = module.userRequest;
@@ -42,11 +41,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: 'src/index.html',
-            inject: true,
-            filename: "index.html",
-        }),
         new NamedModulesPlugin(),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new ExtractTextPlugin("[name]-[contenthash].css"),
@@ -61,6 +55,5 @@ module.exports = {
     ],
     devServer: {
         contentBase: './bundle',
-        stats: { chunks:false },
     },
 };
