@@ -1,0 +1,14 @@
+{
+  "name": "webpack_emit",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "dependencies": {
+    "html-webpack-plugin": "2.30.1",
+    "typescript": "2.4.2",
+    "webpack": "3.5.5",
+    "webpack-dev-server": "2.7.1",
+    "awesome-typescript-loader": "3.2.3"
+  }
+}
