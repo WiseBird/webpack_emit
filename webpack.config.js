@@ -1,20 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-// const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
+const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 // const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 // const OptimizeJsPlugin = require('optimize-js-plugin');
 // const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
-// let postcssLoader = {
-//         loader: 'postcss-loader',
-//         options: {
-//             plugins: () => [
-//             require('autoprefixer')({browsers: 'last 3 Chrome versions'}),
-//         ],
-//     },
-// };
 
 // function isExternal(module) {
 //     let userRequest = module.userRequest;
@@ -29,7 +20,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: './src/index.ts',
     output: {
-        filename: './bundle.[name].js',
+        path: path.resolve(__dirname, 'bundle'),
+        filename: './[name]-[chunkhash].js',
         library: '[name]',
         libraryTarget: "var",
     },
@@ -47,10 +39,14 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.ts$/,
+                test: /\.ts$/,
                 use: [{
                     loader: 'awesome-typescript-loader',
                 }],
+            },
+            {
+                test: /\.(css|scss)/,
+                use: ['to-string-loader', 'css-loader'],
             },
         ]
     },
@@ -58,8 +54,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             inject: true,
-            filename: "bundle.html",
+            filename: "index.html",
         }),
+        new NamedModulesPlugin(),
+        new webpack.optimize.ModuleConcatenationPlugin(),
         // new webpack.optimize.CommonsChunkPlugin({
         //     names: ["vendor"],
         //     minChunks: isExternal
@@ -68,5 +66,8 @@ module.exports = {
         //     names: ["manifest"],
         //     minChunks: Infinity
         // }),
-    ]
+    ],
+    devServer: {
+        contentBase: './bundle',
+    },
 };
