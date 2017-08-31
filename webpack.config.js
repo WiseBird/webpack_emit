@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 function isExternal(module) {
@@ -41,8 +40,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new NamedModulesPlugin(),
-        new webpack.optimize.ModuleConcatenationPlugin(),
         new ExtractTextPlugin("[name]-[contenthash].css"),
         new webpack.optimize.CommonsChunkPlugin({
             names: ["vendor"],
