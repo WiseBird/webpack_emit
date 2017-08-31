@@ -61,5 +61,6 @@ module.exports = {
     ],
     devServer: {
         contentBase: './bundle',
+        stats: { chunks:false },
     },
 };
