@@ -4,15 +4,15 @@ const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// function isExternal(module) {
-//     let userRequest = module.userRequest;
-//
-//     if (typeof userRequest !== 'string') {
-//         return false;
-//     }
-//
-//     return userRequest.indexOf('node_modules') >= 0;
-// }
+function isExternal(module) {
+    var userRequest = module.userRequest;
+
+    if (typeof userRequest !== 'string') {
+        return false;
+    }
+
+    return userRequest.indexOf('node_modules') >= 0;
+}
 
 module.exports = {
     entry: './src/index.ts',
@@ -29,8 +29,6 @@ module.exports = {
         extensions: [
             '.ts',
             '.js',
-            '.html',
-            '.scss',
         ],
     },
     module: {
@@ -58,14 +56,14 @@ module.exports = {
         new NamedModulesPlugin(),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new ExtractTextPlugin("[name]-[contenthash].css"),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     names: ["vendor"],
-        //     minChunks: isExternal
-        // }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     names: ["manifest"],
-        //     minChunks: Infinity
-        // }),
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ["vendor"],
+            minChunks: isExternal
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ["manifest"],
+            minChunks: Infinity
+        }),
     ],
     devServer: {
         contentBase: './bundle',
