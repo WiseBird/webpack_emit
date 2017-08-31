@@ -15,7 +15,7 @@ function isExternal(module) {
 }
 
 module.exports = {
-    entry: './src/index.ts',
+    entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'bundle'),
         filename: './[name]-[chunkhash].js',
@@ -33,12 +33,6 @@ module.exports = {
     },
     module: {
         rules: [
-            {
-                test: /\.ts$/,
-                use: [{
-                    loader: 'awesome-typescript-loader',
-                }],
-            },
             {
                 test: /\.(css|scss)/,
                 loader: ExtractTextPlugin.extract({
