@@ -1,11 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
-// const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-// const OptimizeJsPlugin = require('optimize-js-plugin');
-// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 // function isExternal(module) {
 //     let userRequest = module.userRequest;
@@ -46,7 +43,9 @@ module.exports = {
             },
             {
                 test: /\.(css|scss)/,
-                use: ['to-string-loader', 'css-loader'],
+                loader: ExtractTextPlugin.extract({
+                    use: ['css-loader'],
+                }),
             },
         ]
     },
@@ -58,6 +57,7 @@ module.exports = {
         }),
         new NamedModulesPlugin(),
         new webpack.optimize.ModuleConcatenationPlugin(),
+        new ExtractTextPlugin("[name]-[contenthash].css"),
         // new webpack.optimize.CommonsChunkPlugin({
         //     names: ["vendor"],
         //     minChunks: isExternal
